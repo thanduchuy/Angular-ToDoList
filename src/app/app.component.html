@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="row title d-flex justify-content-center align-items-center">
+    <h1>To Do List</h1>
+  </div>
+  <div class="row form d-flex justify-content-center">
+    <form [formGroup]="myForm">
+      <input
+        class="inputAdd"
+        type="text"
+        placeholder="What need to be done?"
+        (keyup.enter)="addElement()"
+        formControlName="content"
+      />
+      <div class="showList" *ngIf="this.items.length > 0">
+        <div class="listItem">
+          <div
+            class="item d-flex flex-row justify-content-between align-items-center"
+            *ngFor="let item of items; let i = index"
+          >
+            <div class="itemTop d-flex flex-row align-items-center">
+              <img
+                src="../assets/trash.svg"
+                alt=""
+                srcset=""
+                (click)="deleteData(item.id, item.content, item.date)"
+              />
+              <div *ngIf="i != selectIndex; else templateName">
+                <p>{{ item.content }}</p>
+              </div>
+
+              <ng-template #templateName>
+                <input
+                  type="text"
+                  id="editInput"
+                  formControlName="edit"
+                  [(ngModel)]="valueEidt"
+                />
+              </ng-template>
+            </div>
+            <div class="itemBot">
+              <div *ngIf="i != selectIndex; else eleImage">
+                <img
+                  src="../assets/pencil.svg"
+                  alt=""
+                  srcset=""
+                  (click)="editShow(i)"
+                />
+              </div>
+
+              <ng-template #eleImage>
+                <img
+                  src="../assets/heart.svg"
+                  alt=""
+                  srcset=""
+                  (click)="submitEdit(item.id)"
+                />
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <div class="footerList">
+          <p>{{ this.items.length }} item left</p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
